@@ -1,0 +1,355 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Fira+Code:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ──────────────────────────────────────────────────────────────────────────────
+   CSS Variables (Design Tokens) — StellarGigs Neon Green / Cyber Cyan Theme
+────────────────────────────────────────────────────────────────────────────── */
+
+@layer base {
+  :root {
+    --background: 220 20% 5%;
+    --foreground: 160 10% 96%;
+    --card: 220 18% 8%;
+    --card-foreground: 160 10% 96%;
+    --popover: 220 18% 8%;
+    --popover-foreground: 160 10% 96%;
+    /* Primary: Neon Green hsl(152, 100%, 45%) */
+    --primary: 152 100% 45%;
+    --primary-foreground: 220 20% 5%;
+    /* Secondary: Cyber Cyan hsl(185, 100%, 55%) */
+    --secondary: 185 100% 55%;
+    --secondary-foreground: 220 20% 5%;
+    --muted: 220 15% 14%;
+    --muted-foreground: 210 15% 55%;
+    --accent: 220 15% 14%;
+    --accent-foreground: 160 10% 96%;
+    --destructive: 0 72% 58%;
+    --destructive-foreground: 160 10% 96%;
+    --border: 220 15% 16%;
+    --input: 220 15% 16%;
+    --ring: 152 100% 45%;
+    --radius: 0.75rem;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Inter', system-ui, sans-serif;
+    background-image:
+      radial-gradient(ellipse at 20% 50%, hsl(152 100% 10% / 0.18) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 20%, hsl(185 100% 10% / 0.14) 0%, transparent 60%),
+      radial-gradient(ellipse at 50% 90%, hsl(152 80% 8% / 0.12) 0%, transparent 60%);
+    background-attachment: fixed;
+    min-height: 100vh;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: hsl(var(--muted));
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--border));
+    border-radius: 3px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--primary) / 0.6);
+  }
+}
+
+/* ──────────────────────────────────────────────────────────────────────────────
+   Component Classes
+   ────────────────────────────────────────────────────────────────────────────── */
+
+@layer components {
+  /* Glass card */
+  .glass-card {
+    @apply relative overflow-hidden rounded-xl border border-white/[0.06];
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.04) 0%,
+      rgba(255, 255, 255, 0.02) 100%
+    );
+    backdrop-filter: blur(20px);
+    box-shadow:
+      0 4px 24px rgba(0, 0, 0, 0.35),
+      inset 0 1px 0 rgba(255, 255, 255, 0.07);
+    transition: all 0.3s ease;
+  }
+
+  .glass-card:hover {
+    border-color: hsl(152 100% 45% / 0.15);
+    box-shadow:
+      0 8px 40px rgba(0, 0, 0, 0.5),
+      0 0 20px hsl(152 100% 45% / 0.06),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+  }
+
+  /* Gradient text — Neon Green → Cyber Cyan */
+  .gradient-text {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(
+      135deg,
+      hsl(152, 100%, 50%) 0%,
+      hsl(185, 100%, 60%) 100%
+    );
+  }
+
+  .gradient-text-cyan {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(
+      135deg,
+      hsl(185, 100%, 65%) 0%,
+      hsl(200, 95%, 60%) 100%
+    );
+  }
+
+  /* Neon button — Neon Green / Cyber Cyan */
+  .btn-stellar {
+    @apply relative inline-flex items-center gap-2 px-5 py-2.5 rounded-lg font-semibold text-sm;
+    background: linear-gradient(135deg, hsl(152, 100%, 38%) 0%, hsl(185, 100%, 45%) 100%);
+    color: hsl(220, 20%, 5%);
+    box-shadow: 0 0 20px hsl(152 100% 45% / 0.25);
+    transition: all 0.3s ease;
+    overflow: hidden;
+  }
+
+  .btn-stellar::before {
+    content: '';
+    @apply absolute inset-0;
+    background: radial-gradient(circle at center, hsl(152 100% 55% / 0.35) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .btn-stellar:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow:
+      0 0 30px hsl(152 100% 45% / 0.45),
+      0 0 60px hsl(185 100% 55% / 0.15),
+      0 4px 15px rgba(0, 0, 0, 0.4);
+  }
+
+  .btn-stellar:hover::before {
+    opacity: 1;
+  }
+
+  .btn-stellar span {
+    @apply relative z-10;
+  }
+
+  .btn-stellar:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+
+  /* Ghost button */
+  .btn-ghost {
+    @apply inline-flex items-center gap-2 px-5 py-2.5 rounded-lg font-medium text-sm;
+    @apply border border-white/10 text-foreground/80;
+    background: rgba(255, 255, 255, 0.04);
+    transition: all 0.2s ease;
+  }
+
+  .btn-ghost:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: hsl(152 100% 45% / 0.3);
+    color: white;
+  }
+
+  /* Status badge */
+  .badge {
+    @apply inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold;
+  }
+
+  .badge-success {
+    @apply badge;
+    background: hsl(152, 80%, 8%);
+    color: hsl(152, 100%, 55%);
+    border: 1px solid hsl(152, 70%, 20%);
+  }
+
+  .badge-pending {
+    @apply badge;
+    background: hsl(185, 80%, 8%);
+    color: hsl(185, 100%, 60%);
+    border: 1px solid hsl(185, 70%, 20%);
+  }
+
+  .badge-error {
+    @apply badge;
+    background: hsl(0, 72%, 10%);
+    color: hsl(0, 80%, 65%);
+    border: 1px solid hsl(0, 60%, 25%);
+  }
+
+  /* Open / Active gig badge — Neon Green */
+  .badge-active {
+    @apply badge;
+    background: hsl(152, 80%, 7%);
+    color: hsl(152, 100%, 55%);
+    border: 1px solid hsl(152, 70%, 18%);
+  }
+
+  .badge-expired {
+    @apply badge;
+    background: hsl(0, 20%, 12%);
+    color: hsl(0, 20%, 55%);
+    border: 1px solid hsl(0, 20%, 25%);
+  }
+
+  /* Input */
+  .input-stellar {
+    @apply w-full px-4 py-3 rounded-lg text-sm;
+    @apply border border-white/10 bg-white/[0.03];
+    @apply text-foreground placeholder:text-muted-foreground;
+    @apply outline-none transition-all;
+  }
+
+  .input-stellar:focus {
+    border-color: hsl(152 100% 45% / 0.5);
+    box-shadow: 0 0 0 3px hsl(152 100% 45% / 0.1);
+  }
+
+  /* Progress bar */
+  .progress-bar {
+    @apply w-full h-2 rounded-full bg-muted overflow-hidden;
+  }
+
+  .progress-fill {
+    @apply h-full rounded-full transition-all duration-700;
+    background: linear-gradient(90deg, hsl(152, 100%, 45%) 0%, hsl(185, 100%, 55%) 100%);
+    box-shadow: 0 0 12px hsl(152 100% 45% / 0.5);
+  }
+
+  /* Skeleton loader */
+  .skeleton {
+    @apply rounded-lg bg-muted/50;
+    background: linear-gradient(
+      90deg,
+      hsl(220 15% 12%) 25%,
+      hsl(220 15% 16%) 50%,
+      hsl(220 15% 12%) 75%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 2s infinite linear;
+  }
+
+  /* Nav item */
+  .nav-item {
+    @apply flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium;
+    @apply text-muted-foreground transition-all duration-200;
+  }
+
+  .nav-item:hover {
+    @apply bg-white/[0.05] text-foreground;
+  }
+
+  .nav-item.active {
+    color: hsl(var(--primary));
+    background: hsl(152 100% 45% / 0.08);
+    border: 1px solid hsl(152 100% 45% / 0.15);
+  }
+
+  /* Address display */
+  .address-display {
+    @apply font-mono text-xs px-3 py-1.5 rounded-md;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  /* Stat card */
+  .stat-card {
+    @apply glass-card p-6 flex flex-col gap-2;
+  }
+
+  /* Event card */
+  .event-card {
+    @apply flex items-start gap-4 p-4 rounded-xl;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.2s ease;
+  }
+
+  .event-card:hover {
+    background: rgba(255, 255, 255, 0.04);
+    border-color: hsl(152 100% 45% / 0.1);
+  }
+
+  /* Dot indicator */
+  .dot-active {
+    @apply w-2 h-2 rounded-full;
+    background: hsl(152, 100%, 50%);
+    box-shadow: 0 0 8px hsl(152 100% 50% / 0.7);
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  .dot-pending {
+    @apply w-2 h-2 rounded-full bg-amber-400;
+    box-shadow: 0 0 8px rgba(251, 191, 36, 0.6);
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  .dot-error {
+    @apply w-2 h-2 rounded-full bg-red-400;
+  }
+}
+
+/* ──────────────────────────────────────────────────────────────────────────────
+   Animations
+────────────────────────────────────────────────────────────────────────────── */
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(0.9); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slide-right {
+  from { opacity: 0; transform: translateX(-16px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.4s ease-out forwards;
+}
+
+.animate-slide-right {
+  animation: slide-right 0.35s ease-out forwards;
+}
+
+/* Stagger children */
+.stagger-children > *:nth-child(1) { animation-delay: 0ms; }
+.stagger-children > *:nth-child(2) { animation-delay: 60ms; }
+.stagger-children > *:nth-child(3) { animation-delay: 120ms; }
+.stagger-children > *:nth-child(4) { animation-delay: 180ms; }
+.stagger-children > *:nth-child(5) { animation-delay: 240ms; }
+.stagger-children > *:nth-child(6) { animation-delay: 300ms; }
