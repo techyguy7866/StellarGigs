@@ -46,6 +46,9 @@ export function Navbar() {
                 (item.href !== "/" && pathname.startsWith(item.href))
             )?.label || "Home"}
           </span>
+          <span className="ml-2 px-2 py-0.5 rounded-full text-[10px] bg-primary/10 border border-primary/20 text-primary normal-case font-mono">
+            Soroban v1.0
+          </span>
         </div>
 
         {/* Right side */}
