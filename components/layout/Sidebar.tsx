@@ -71,11 +71,14 @@ export function Sidebar() {
       {/* Bottom info */}
       <div className="px-4 py-5 border-t border-white/[0.06] space-y-3">
         {/* Network badge */}
-        <div className="flex items-center gap-2 px-3 py-2.5 rounded-lg bg-white/[0.05] border border-white/[0.08] hover:bg-white/[0.08] transition-colors">
-          <div className="dot-active" />
-          <span className="text-xs text-muted-foreground capitalize font-medium">
-            {STELLAR_CONFIG.network}
-          </span>
+        <div className="flex items-center justify-between px-3 py-2.5 rounded-lg bg-white/[0.05] border border-white/[0.08] hover:bg-white/[0.08] transition-colors">
+          <div className="flex items-center gap-2">
+            <div className="dot-active" />
+            <span className="text-xs text-muted-foreground capitalize font-medium">
+              {STELLAR_CONFIG.network}
+            </span>
+          </div>
+          <span className="text-[10px] text-primary font-mono font-semibold">Fee: 0.0001 XLM</span>
         </div>
 
         {/* Contract link */}
