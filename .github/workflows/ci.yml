@@ -1,0 +1,124 @@
+name: CI — StellarGigs
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+env:
+  CARGO_TERM_COLOR: always
+  NODE_VERSION: '20'
+
+jobs:
+  # ── Job 1: Rust Smart Contract Tests ─────────────────────────────────────────
+  contract-tests:
+    name: 🦀 Smart Contract Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Rust toolchain (stable)
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-unknown-unknown
+          components: clippy, rustfmt
+
+      - name: Cache Cargo registry & build artifacts
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target/
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.toml') }}
+          restore-keys: |
+            ${{ runner.os }}-cargo-
+
+      - name: Run contract lint (clippy)
+        run: cargo clippy --workspace --all-targets -- -D warnings
+
+      - name: Run contract unit tests
+        run: cargo test --workspace --verbose
+
+      - name: Build WASM (release)
+        run: |
+          cargo build --target wasm32-unknown-unknown --release \
+            --package stellar_gigs \
+            --package reputation_token
+
+      - name: Upload WASM artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: contract-wasm
+          path: |
+            target/wasm32-unknown-unknown/release/stellar_gigs.wasm
+            target/wasm32-unknown-unknown/release/reputation_token.wasm
+          retention-days: 7
+
+  # ── Job 2: Frontend Tests & Build ────────────────────────────────────────────
+  frontend:
+    name: 🌐 Frontend Tests & Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install --legacy-peer-deps
+
+      - name: Lint TypeScript
+        run: npm run lint
+
+      - name: Run frontend unit tests
+        run: npm run test
+        env:
+          NEXT_PUBLIC_STELLAR_NETWORK: testnet
+          NEXT_PUBLIC_STELLAR_RPC_URL: https://soroban-testnet.stellar.org
+          NEXT_PUBLIC_NETWORK_PASSPHRASE: "Test SDF Network ; September 2015"
+          NEXT_PUBLIC_CROWDFUND_CONTRACT_ID: CCTR3YCGHRHEURJ27XQ2JG6PKOE2X26U75SANNUYWGL62626TE3HUTCW
+          NEXT_PUBLIC_REWARD_TOKEN_CONTRACT_ID: CD7LEJ4OYMD3WABRWTSARKGH6YDFWVHTGYUEF4NVOZDAACUH6R6JSWDD
+          NEXT_PUBLIC_HORIZON_URL: https://horizon-testnet.stellar.org
+          NEXT_PUBLIC_DEPLOYER_ADDRESS: GAUS5N5VFEIWUD2OXLPLCXHZGW5WYOYS2RBMRQ74BFS3P4XYUYDQEK2Q
+          NEXT_PUBLIC_NATIVE_TOKEN_ADDRESS: CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC
+
+      - name: Build production bundle
+        run: npm run build
+        env:
+          NEXT_PUBLIC_STELLAR_NETWORK: testnet
+          NEXT_PUBLIC_STELLAR_RPC_URL: https://soroban-testnet.stellar.org
+          NEXT_PUBLIC_NETWORK_PASSPHRASE: "Test SDF Network ; September 2015"
+          NEXT_PUBLIC_CROWDFUND_CONTRACT_ID: CCTR3YCGHRHEURJ27XQ2JG6PKOE2X26U75SANNUYWGL62626TE3HUTCW
+          NEXT_PUBLIC_REWARD_TOKEN_CONTRACT_ID: CD7LEJ4OYMD3WABRWTSARKGH6YDFWVHTGYUEF4NVOZDAACUH6R6JSWDD
+          NEXT_PUBLIC_HORIZON_URL: https://horizon-testnet.stellar.org
+          NEXT_PUBLIC_DEPLOYER_ADDRESS: GAUS5N5VFEIWUD2OXLPLCXHZGW5WYOYS2RBMRQ74BFS3P4XYUYDQEK2Q
+          NEXT_PUBLIC_NATIVE_TOKEN_ADDRESS: CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC
+
+  # ── Job 3: Security Audit ─────────────────────────────────────────────────────
+  security-audit:
+    name: 🔐 Security Audit
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install cargo-audit
+        run: cargo install cargo-audit --locked
+
+      - name: Run Rust dependency audit
+        run: cargo audit --ignore RUSTSEC-2021-0145
+        continue-on-error: true
+
+      - name: Run npm audit
+        run: npm audit --audit-level=high
+        continue-on-error: true
