@@ -80,6 +80,12 @@ export function CampaignForm({ onClose }: GigFormProps) {
           </button>
         </div>
 
+        {/* GIG Token Info Banner */}
+        <div className="mx-6 mt-4 p-3 rounded-xl bg-primary/5 border border-primary/20 flex items-center gap-2.5 text-xs text-primary">
+          <Briefcase className="w-4 h-4 flex-shrink-0" />
+          <span>Posters & Applicants receive <strong>1 GIG Token</strong> per 1 XLM escrowed upon completion.</span>
+        </div>
+
         {/* Form */}
         <form onSubmit={handleSubmit} className="px-6 py-5 space-y-5">
           {/* Title */}
