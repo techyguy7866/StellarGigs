@@ -10,8 +10,8 @@ StellarGigs is a next-generation milestone-based freelance marketplace and reput
 
 ## 🔗 Live Links & Demo
 
-- **Live Web Application (Vercel Deployment)**: `[Insert Vercel Live Link Here]`
-- **Demo Video Walkthrough**: `[Insert Demo Video Link Here]`
+- **Live Web Application (Vercel Deployment)**: [stellar-gigs.vercel.app](https://stellar-gigs.vercel.app)
+- **Demo Video Walkthrough**: [Watch on Google Drive](https://drive.google.com/file/d/1wkDNo_90Jb0cSxDnH_LIUDGSjtmQLqr0/view?usp=sharing)
 
 ---
 
