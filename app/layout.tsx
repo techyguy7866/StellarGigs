@@ -57,6 +57,16 @@ export default function RootLayout({
             <main className="flex-1 px-4 md:px-8 py-8 max-w-screen-2xl mx-auto w-full">
               {children}
             </main>
+
+            {/* Footer */}
+            <footer className="lg:pl-0 border-t border-white/[0.06] px-8 py-4 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-muted-foreground">
+              <span>© {new Date().getFullYear()} <span className="text-primary font-semibold">StellarGigs</span> — Decentralized Freelance Escrow Protocol</span>
+              <div className="flex items-center gap-4">
+                <a href="https://github.com/techyguy7866/StellarGigs" target="_blank" rel="noreferrer" className="hover:text-foreground transition-colors">GitHub</a>
+                <a href="https://stellar.expert/explorer/testnet/contract/CCTR3YCGHRHEURJ27XQ2JG6PKOE2X26U75SANNUYWGL62626TE3HUTCW" target="_blank" rel="noreferrer" className="hover:text-foreground transition-colors">Explorer</a>
+                <span className="flex items-center gap-1.5"><span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />Testnet</span>
+              </div>
+            </footer>
           </div>
 
           {/* Toast notifications */}
