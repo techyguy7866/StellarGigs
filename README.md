@@ -15,6 +15,18 @@ StellarGigs is a next-generation milestone-based freelance marketplace and reput
 
 ---
 
+## 🛠️ Technology Stack
+
+| Layer | Technologies Used |
+|---|---|
+| **Smart Contracts** | Soroban Rust SDK v21.0, WASM, Cargo |
+| **Frontend Framework** | Next.js 16 (App Router), TypeScript, React 19 |
+| **Styling & Icons** | Vanilla CSS, Tailwind CSS, Lucide Icons |
+| **Blockchain SDK** | `@stellar/stellar-sdk`, `@stellar/freighter-api` |
+| **State & Testing** | Zustand, React Query, Vitest, Testing Library |
+
+---
+
 ## 📸 Screenshots & Previews
 
 ### Dashboard Interface
