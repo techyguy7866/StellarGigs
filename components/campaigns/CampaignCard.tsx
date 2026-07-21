@@ -46,10 +46,10 @@ export function CampaignCard({ campaign }: CampaignCardProps) {
         style={{
           background:
             campaign.status === "Successful" || campaign.status === "Withdrawn"
-              ? "linear-gradient(90deg, hsl(142,70%,45%), hsl(243,75%,59%))"
+              ? "linear-gradient(90deg, hsl(152, 100%, 45%), hsl(185, 100%, 55%))"
               : campaign.status === "Expired"
               ? "linear-gradient(90deg, hsl(0,20%,40%), hsl(0,20%,50%))"
-              : `linear-gradient(90deg, hsl(243,75%,59%) ${campaign.progressPercent}%, hsl(234,18%,20%) ${campaign.progressPercent}%)`,
+              : `linear-gradient(90deg, hsl(152, 100%, 45%) ${campaign.progressPercent}%, hsl(234,18%,20%) ${campaign.progressPercent}%)`,
         }}
       />
 
